@@ -175,8 +175,9 @@ countdownSecond() {
         this.start.addEventListener('click', this.lifeIntervalFirst.bind(this));
         this.start.addEventListener('click', this.lifeIntervalSecond.bind(this));
         this.start.addEventListener('click', this.countdownFirst.bind(this));
+        this.start.addEventListener('click', this.countdownSecond.bind(this));
         if (this.launch === true) {
-            this.start.addEventListener('click', this.countdownSecond.bind(this));
+            window.addEventListener('load', this.countdownSecond.bind(this));
         }
         this.stop1.addEventListener('click', this.stopTimer.bind(this));
         this.stop2.addEventListener('click', this.stopOnlySecondTimer.bind(this));
