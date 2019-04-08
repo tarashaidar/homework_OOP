@@ -107,12 +107,29 @@ class Timer{
     render(){
         this.createElements(); 
         this.change_Button();
+<<<<<<< HEAD
         this.seconds = this.setSeconds;
         this.width = this.line.offsetWidth;
         this.stop.addEventListener('click', this.stopTimer.bind(this));
         this.start.addEventListener('click', this.lifeInterval.bind(this));
         this.start.addEventListener('click', this.countdown.bind(this));
         this.stop.addEventListener('click', this.stopTimer.bind(this));        
+=======
+        this.seconds1 = this.time;
+        this.seconds2 = this.time;
+        this.width = this.line1.offsetWidth;
+        this.stop1.addEventListener('click', this.stopTimer.bind(this));
+        this.start.addEventListener('click', this.lifeIntervalFirst.bind(this));
+        this.start.addEventListener('click', this.lifeIntervalSecond.bind(this));
+        this.start.addEventListener('click', this.countdownFirst.bind(this));
+        this.start.addEventListener('click', this.countdownSecond.bind(this));
+        if (this.launch === true) {
+            window.addEventListener('load', this.countdownSecond.bind(this));
+        }
+        this.stop1.addEventListener('click', this.stopTimer.bind(this));
+        this.stop2.addEventListener('click', this.stopOnlySecondTimer.bind(this));
+            
+>>>>>>> 50f3375b4881b70a266f1ef6e7014b46778dcef3
     }
 }
 
