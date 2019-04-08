@@ -1,195 +1,148 @@
 const homework = document.querySelector('#homework');
-
+const container= document.querySelector('.container');
 class Timer{
-    constructor(time, setMinutes ,launch){
-        this.time = time;
+    constructor(setMinutes, setSeconds, launch, delay){
         this.setMinutes = setMinutes;
+        this.setSeconds = setSeconds;
         this.launch = launch;
+        this.delay = delay;
         this.render(); 
     }
 
-    
-
-    createCounter1(){
-        this.counter1 = document.createElement('div');
-        this.counter1.textContent = '01:00';
-        this.counter1.classList.add('timer');
-        return this.counter1;
-    }
-
-     createCounter2(){
-        this.counter2 = document.createElement('div');
-        this.counter2.textContent = `${this.setMinutes}:00`;
-        this.counter2.classList.add('timer')
-        return this.counter2;
+    createCounter(){
+        this.counter = document.createElement('div');
+        this.counter.textContent = `${this.setMinutes}:${this.setSeconds}`;
+        this.counter.classList.add('timer');
+        return this.counter;
     }
 
     createStart(){
         this.start = document.createElement('button');
         this.start.textContent = 'Start';
-        this.start.classList.add('start');
+        this.start.style.display = 'block';
         return this.start;
     }
 
-    createStop1(){
-        this.stop1 = document.createElement('button');
-        this.stop1.textContent = 'Stop';
-        this.stop1.classList.add('stop1');
-        return this.stop1;
+    createstop(){
+        this.stop = document.createElement('button');
+        this.stop.textContent = 'Stop';
+        this.stop.style.display = 'none';
+        return this.stop;
     }
 
-    createStop2(){
-        this.stop2 = document.createElement('button');
-        this.stop2.textContent = 'Stop';
-        this.stop2.classList.add('stop');
-        return this.stop2;
-    }
-    
-
-    createLine1(){
-        this.line1 = document.createElement('div');
-        this.line1.classList.add('line1');
-        return this.line1;
-    }
-
-    createLine2(){
-        this.line2 = document.createElement('div');
-        this.line2.classList.add('line2');
-        return this.line2;
+    createline(){
+        this.line = document.createElement('div');
+        this.line.classList.add('line');
+        return this.line;
     }
 
     createElements(){
-        this.container = document.createElement('div');
-        this.container.classList.add('container');   
-        homework.append(this.container);
-        this.container.append(this.createCounter1());
-        this.container.append(this.createStart());
-        this.container.append(this.createStop1());
-        this.container.append(this.createLine1());
-        this.container.append(this.createCounter2());
-        this.container.append(this.createStop2());
-        this.container.append(this.createLine2());
+        container.append(this.createCounter());
+        container.append(this.createStart());
+        container.append(this.createstop());
+        container.append(this.createline());
     }
     
     ///////////////////////////////////////////////////
 
     change_Button(){
         this.start.addEventListener(`click`, () => {
-            this.start.classList.remove(`start`);
-            this.start.classList.toggle('stop1');
-            this.stop1.classList.toggle(`start`);
-            this.stop1.classList.remove(`stop1`);
+            this.start.style.display = 'none';
+            this.stop.style.display = 'block';
         });   
 
-        this.stop1.addEventListener(`click`, () => {
-            this.stop1.classList.remove('start');
-            this.stop1.classList.toggle('stop1');
-            this.start.classList.toggle(`start`);
-            this.start.classList.remove('stop1')
+        this.stop.addEventListener(`click`, () => {
+            this.stop.style.display = 'none';
+            this.start.style.display = 'block';
         }); 
     }
 
-    lifeIntervalFirst(){
+    lifeInterval(){
+        this.widthInterval = 100;
         this.intervalFirst = setInterval(() => {
-            const currentWidth = this.line1.offsetWidth;
-            const percent = (this.width / 100);
+            const currentWidth = this.line.offsetWidth;
+            const percent = (this.width / this.widthInterval);
             if (currentWidth < percent ) {
-                this.line1.style.width = `0`;
+                this.line.style.width = `0`;
             }
-            this.line1.style.width = `${currentWidth - percent}px`;
+            this.line.style.width = `${currentWidth - percent}px`;
         }, 1000);
     }
-
-    lifeIntervalSecond(){
-        this.intervalSecond = setInterval(() => {
-            const currentWidth = this.line2.offsetWidth;
-            const percent = (this.width / 500);
-            if (currentWidth < percent ) {
-                this.line2.style.width = `0`;
-            }
-            this.line2.style.width = `${currentWidth - percent}px`;
-        }, 1000);
-    }
-
- 
 
     stopTimer(){
         clearInterval(this.intervalFirst);
-        clearInterval(this.intervalSecond);
-        clearInterval(this.timeIntervalFirst); 
-        clearInterval(this.timeIntervalSecond); 
-        
-    }
-
-    stopOnlySecondTimer(){
-        clearInterval(this.intervalSecond);
-        clearInterval(this.timeIntervalSecond);
+        clearInterval(this.timeIntervalFirst);    
     }
 
     continueTimer(){
-        this.countdownFirst();
+        this.countdown();
     }
 
-
-    countdownFirst() {
-            if (this.seconds1 > 0) {
-            this.timeIntervalFirst = setInterval(() =>  {
-                if (this.seconds1  <= 0) {
-                    clearInterval(this.timeInterval);
+    countdown(){
+        this.secondsInterval = 1;
+        this.timeIntervalFirst = setInterval(() =>  {
+            if (this.setMinutes === 0 && this.seconds === 0) {
+                this.stopTimer();
+                this.stop.style.display = 'none';
+                this.start.style.display = 'block';
+                this.start.addEventListener('click', this.timerReset())
+            }else{
+                if (this.seconds <= 0) {
+                    this.seconds = 60;
+                    this.setMinutes--;
                 } else {
-                    this.seconds1 --;;
-                    
+                    this.seconds = this.seconds - this.secondsInterval ;
                 }
-                this.counter1.innerHTML = "00:" + (this.seconds1  < 10 ? "0" : "") + String(this.seconds1 );
-            }, 1000); 
-            
-
+                this.counter.innerHTML = `${this.setMinutes}:` + (this.seconds < 10 ? "0" : "") + String(this.seconds);
+            }
+        }, this.delay); 
     }
-}
 
-countdownSecond() {
-    if (this.seconds2 > 0) {
-    this.timeIntervalSecond = setInterval(() =>  {
-        if (this.seconds2 <= 0) {
-            this.seconds2 = 60;
-            this.setMinutes--;
-        } else {
-            this.seconds2 = this.seconds2 - 2 ;
-        if (this.setMinutes < 0) {
-            this.stopTimer();
-        }
-        }
-        this.counter2.innerHTML = `${this.setMinutes}:` + (this.seconds2 < 10 ? "0" : "") + String(this.seconds2);
-    }, 2000); 
-}
-}
-
+    timerReset() {
+		this.line.style.width = "100%";
+        this.seconds = this.setSeconds;
+        this.width = this.line.offsetWidth;
+	}
 
     render(){
         this.createElements(); 
         this.change_Button();
-        this.seconds1 = this.time;
-        this.seconds2 = this.time;
-        this.width = this.line1.offsetWidth;
-        this.stop1.addEventListener('click', this.stopTimer.bind(this));
-        this.start.addEventListener('click', this.lifeIntervalFirst.bind(this));
-        this.start.addEventListener('click', this.lifeIntervalSecond.bind(this));
-        this.start.addEventListener('click', this.countdownFirst.bind(this));
-        if (this.launch === true) {
-            this.start.addEventListener('click', this.countdownSecond.bind(this));
-        }
-        this.stop1.addEventListener('click', this.stopTimer.bind(this));
-        this.stop2.addEventListener('click', this.stopOnlySecondTimer.bind(this));
-            
+        this.seconds = this.setSeconds;
+        this.width = this.line.offsetWidth;
+        this.stop.addEventListener('click', this.stopTimer.bind(this));
+        this.start.addEventListener('click', this.lifeInterval.bind(this));
+        this.start.addEventListener('click', this.countdown.bind(this));
+        this.stop.addEventListener('click', this.stopTimer.bind(this));        
     }
-
-
 }
 
-const timer = new Timer(60, 90,  true);
+class SecondTimer extends Timer{
+    constructor(setMinutes, setSeconds, launch, delay){
+        super(setMinutes,setSeconds,launch, delay); 
+        }
 
+        render(){
+            super.render();
+            if (this.launch === true) {
+                this.start.style.display = 'none';
+                this.stop.style.display = 'block';
+                window.addEventListener('load', this.countdown());
+                window.addEventListener('load', this.lifeInterval());
+            }
+        }
 
+        lifeInterval(){
+            super.lifeInterval();
+            this.widthInterval = 300; 
+        }
 
+        countdown(){
+            super.countdown();
+            this.secondsInterval = 2;
+        }
+}
 
-// start the countdown
+const timer = new Timer(0, 60, false, 1000);
+const secondTimer = new SecondTimer(90, 50, true, 2000);
+
 
