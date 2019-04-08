@@ -99,7 +99,7 @@ class Timer{
     }
 
     timerReset() {
-		this.line.style.width = "100%";
+	this.line.style.width = "100%";
         this.seconds = this.setSeconds;
         this.width = this.line.offsetWidth;
 	}
@@ -107,14 +107,13 @@ class Timer{
     render(){
         this.createElements(); 
         this.change_Button();
-<<<<<<< HEAD
         this.seconds = this.setSeconds;
         this.width = this.line.offsetWidth;
         this.stop.addEventListener('click', this.stopTimer.bind(this));
         this.start.addEventListener('click', this.lifeInterval.bind(this));
         this.start.addEventListener('click', this.countdown.bind(this));
         this.stop.addEventListener('click', this.stopTimer.bind(this));        
-=======
+
         this.seconds1 = this.time;
         this.seconds2 = this.time;
         this.width = this.line1.offsetWidth;
@@ -128,8 +127,6 @@ class Timer{
         }
         this.stop1.addEventListener('click', this.stopTimer.bind(this));
         this.stop2.addEventListener('click', this.stopOnlySecondTimer.bind(this));
-            
->>>>>>> 50f3375b4881b70a266f1ef6e7014b46778dcef3
     }
 }
 
@@ -137,7 +134,7 @@ class SecondTimer extends Timer{
     constructor(setMinutes, setSeconds, launch, delay){
         super(setMinutes,setSeconds,launch, delay); 
         }
-
+	
         render(){
             super.render();
             if (this.launch === true) {
